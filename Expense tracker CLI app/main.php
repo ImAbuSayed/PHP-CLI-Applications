@@ -1,43 +1,50 @@
 <?php
-
-class Transaction {
+class Transaction
+{
     public $amount;
     public $category;
     public $description;
 
-    public function __construct($amount, $category, $description) {
+    public function __construct($amount, $category, $description)
+    {
         $this->amount = $amount;
         $this->category = $category;
         $this->description = $description;
     }
 
-    public function display() {
+    public function display()
+    {
         echo "Amount: $this->amount, Category: $this->category, Description: $this->description\n";
     }
 }
 
-class TransactionManager {
+class TransactionManager
+{
     private $transactions = [];
     private $filename;
 
-    public function __construct($filename) {
+    public function __construct($filename)
+    {
         $this->filename = $filename;
         $this->loadData();
     }
 
-    public function addTransaction($amount, $category, $description) {
+    public function addTransaction($amount, $category, $description)
+    {
         $transaction = new Transaction($amount, $category, $description);
         $this->transactions[] = $transaction;
         $this->saveData();
     }
 
-    public function viewTransactions() {
+    public function viewTransactions()
+    {
         foreach ($this->transactions as $transaction) {
             $transaction->display();
         }
     }
 
-    public function updateTransaction($index, $amount, $category, $description) {
+    public function updateTransaction($index, $amount, $category, $description)
+    {
         if (isset($this->transactions[$index])) {
             $this->transactions[$index]->amount = $amount;
             $this->transactions[$index]->category = $category;
@@ -48,11 +55,13 @@ class TransactionManager {
         }
     }
 
-    private function saveData() {
+    private function saveData()
+    {
         file_put_contents($this->filename, serialize($this->transactions));
     }
 
-    private function loadData() {
+    private function loadData()
+    {
         if (file_exists($this->filename)) {
             $this->transactions = unserialize(file_get_contents($this->filename));
         }
